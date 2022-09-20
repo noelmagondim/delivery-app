@@ -14,18 +14,17 @@ module.exports = {
         allowNull: false,
       },
       price: {
-        type: Sequelize.DECIMAL,
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      urlImage: {
+      url_image: {
         type: Sequelize.STRING,
         allowNull: false,
-        field: 'url_image'
       },
     })
   },
 
-  async down (queryInterface, Sequelize) {
+  async down (queryInterface, _Sequelize) {
     await queryInterface.dropTable('products');
   }
 };

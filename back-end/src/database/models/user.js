@@ -1,4 +1,4 @@
-const User =  (sequelize, DataTypes) => {
+const User = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
@@ -23,7 +23,7 @@ const User =  (sequelize, DataTypes) => {
       allowNull: false,
     },
       timestamps: false,
-      tableName: 'Users',
+      tableName: 'users',
       underscored: true,
   });
 
