@@ -11,6 +11,7 @@ const saleController = {
 
   async updateStatus(req, res) {
     const { status } = req.body;
+    const { saleId } = req.params;
 
     const sale = await saleService.updateStatus(status);
 

@@ -7,8 +7,8 @@ const saleService = {
     return sale;
   },
 
-  async updateStatus(status) {
-    const sale = Sale.update({ status }, { where: { id: 1 } });
+  async updateStatus(status, id) {
+    const sale = Sale.update({ status }, { where: { id } });
 
     return sale;
   },
