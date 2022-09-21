@@ -5,5 +5,6 @@ const userRouter = Router();
 
 userRouter.post('/login', userController.login);
 userRouter.get('/', userController.getAll);
+userRouter.get('/:id', userController.findUserById);
 
 module.exports = userRouter;

@@ -1,7 +1,7 @@
 const md5 = require('md5');
 const token = require('../auth/createJWT');
 const { User } = require('../database/models');
-const customError = require('../utils/customError');
+const customError = require('../errors/CustomError');
 
 const userService = {
   async login(email, password) {
@@ -25,6 +25,17 @@ const userService = {
     });
     return result;
   },
+  
+  async findUserById(id) {
+    const user = await User.findByPk(id, {
+      attributes: {
+        exclude: ['password']},
+        where: { id },
+    });
+    if (!user) throw new customError(404, 'User does not exist');
+
+    return user;
+  }
 }
 
 module.exports = userService;
