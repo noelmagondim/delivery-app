@@ -24,7 +24,15 @@ const userController = {
       return res.status(404).json({ message: 'Invalid id'});
     }
     return res.status(200).json(user);
-  }
-}
+  },
+  
+  async create(req, res) {
+    const { name, email, password, role } = req.body;
+
+    const token = await userService.create(name, email, password, role);
+  
+    return res.status(201).json(token);
+  },
+};
 
 module.exports = userController;
