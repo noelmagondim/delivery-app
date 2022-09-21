@@ -3,6 +3,6 @@ const userRouter = require('./user.routes');
 
 const router = Router();
 
-router.use('/login', userRouter);
+router.use('/users', userRouter);
 
 module.exports = router;
