@@ -7,7 +7,13 @@ const userController = {
     const token = await userService.login(email, password);
   
     return res.status(200).json(token);
-  }
+  },
+
+  async getAll(req, res) {
+    const result = await userService.getAll();
+    
+    return res.status(200).json(result);
+  },
 }
 
 module.exports = userController;

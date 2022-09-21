@@ -11,13 +11,20 @@ const userService = {
   
     const hashPassword = md5(password);
   
-    if (!hashPassword !== user.password) throw new customError(401, 'Incorrect email or password');
+    if (hashPassword !== user.password) throw new customError(401, 'Incorrect email or password');
   
     const { id, role, name } = user;
   
     const auth = token({ id, role, name });
     return auth;
-  }
+  },
+
+  async getAll() {
+    const result = await User.findAll({
+      attributes: { exclude: ['password'] },
+    });
+    return result;
+  },
 }
 
 module.exports = userService;
