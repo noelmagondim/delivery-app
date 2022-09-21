@@ -1,15 +1,13 @@
 const express = require('express');
 require('express-async-errors');
 const { User } = require('../database/models');
+const router = require('../routes');
 const errorHandler = require('../middlewares/errorHandler');
 
 const app = express();
+app.use(express.json());
 
-app.get('/coffee', async (_req, res) => {
-  const user = await User.findAll()
-
-  res.status(200).json(user);
-});
+app.use(router);
 
 app.use(errorHandler)
 
