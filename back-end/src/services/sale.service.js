@@ -32,7 +32,7 @@ const saleService = {
     });
 
     return transaction;
-  }
-}
+  },
+};
 
 module.exports = saleService;

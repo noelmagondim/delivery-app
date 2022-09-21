@@ -15,7 +15,7 @@ const saleController = {
     const sale = await saleService.updateStatus(status);
 
     return res.status(200).json(sale);
-  }
-}
+  },
+};
 
 module.exports = saleController;
