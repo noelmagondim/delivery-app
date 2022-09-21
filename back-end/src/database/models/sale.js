@@ -1,32 +1,38 @@
 const Sale = (sequelize, DataTypes) => {
-  const Sale = sequelize.define('Sales', {
+  const Sale = sequelize.define("Sale", {
     id: {
-      type: DataTypes.INTEGER,
+      allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      allowNull: false,
+      type: DataTypes.INTEGER
     },
-    userId: { 
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      references: { model:'users', key: 'id' },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
-    sellerId: {
-     type: DataTypes.INTEGER,
-     allowNull: false,
+    seller_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model:'users', key: 'id' },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
-    totalPrice: {
-      type: DataTypes.DECIMAL(10, 2),
+    total_price: {
+      type: DataTypes.DECIMAL(9, 2),
       allowNull: false,
     },
-    deliveryAddress: {
+    delivery_address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    deliveryNumber: {
+    delivery_number: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    saleDate: {
+    sale_date: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -34,14 +40,18 @@ const Sale = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-      timestamps: false,
-      tableName: 'sales',
-      underscored: true,
-  });
+  }, {
+    tableName: 'sales',
+    timestamps: false,
+  })
+
   Sale.associate = (models) => {
-    Sale.belongsTo(models.User, { as: 'user', foreignKey: 'userId'});
-    Sale.belongsTo(models.User, { as: 'seller', foreignKey: 'sellerId'})
+    Sale.belongsTo(models.User,
+      { foreignKey: 'userId', as: 'user' });
+    Sale.belongsTo(models.User,
+      { foreignKey: 'sellerId', as: 'seller' });
   };
+
   return Sale;
 };
 
