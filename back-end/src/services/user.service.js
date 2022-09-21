@@ -1,23 +1,36 @@
 const md5 = require('md5');
 const token = require('../auth/createJWT');
 const { User } = require('../database/models');
-const customError = require('../utils/customError');
+const CustomError = require('../errors/CustomError');
 
 const userService = {
   async login(email, password) {
     const user = await User.findOne({ where: { email } });
-    
-    if (!user) throw new customError(404, 'Incorrect email or password');
+
+    if (!user) throw new CustomError(404, 'User does not exist');
   
     const hashPassword = md5(password);
   
-    if (!hashPassword !== user.password) throw new customError(401, 'Incorrect email or password');
+    if (hashPassword !== user.password) throw new CustomError(401, 'Incorrect email or password');
   
-    const { id, role, name } = user;
+    const { name, role } = user;
   
-    const auth = token({ id, role, name });
+    const auth = token({ name, role });
+
     return auth;
-  }
-}
+  },
+
+  async create(name, email, hashPassword, role) {
+    const user = await User.findOne({ where: { email } });
+
+    if (user) throw new CustomError(409, 'Email already registered');
+
+    const password = md5(hashPassword);
+  
+    const newUser = await User.create({ name, email, password, role });
+
+    return newUser;
+  },
+};
 
 module.exports = userService;
