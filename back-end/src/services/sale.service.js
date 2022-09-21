@@ -43,6 +43,22 @@ const saleService = {
     if (!sale) throw new CustomError(401, 'Sale not found');
 
     return sale;
+  },
+
+  async findByUser(userId) {
+    const sales = Sale.findAll({where: { userId }});
+
+    if (!sales) throw new CustomError(401, 'User doesn\'t have order\'s yet');
+
+    return sales;
+  },
+
+  async findBySeller(sellerId) {
+    const sales = Sale.findAll({where: { sellerId }});
+
+    if (!sales) throw new CustomError(401, 'Seller doesen\'t have sales yet');
+
+    return sales;
   }
 };
 

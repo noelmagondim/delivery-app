@@ -13,7 +13,7 @@ const saleController = {
     const { status } = req.body;
     const { saleId } = req.params;
 
-    const sale = await saleService.updateStatus(status);
+    const sale = await saleService.updateStatus(status, saleId);
 
     return res.status(201).json(sale);
   },
@@ -24,6 +24,22 @@ const saleController = {
     const sale = await saleService.findById(saleId);
 
     return res.status(200).json(sale);
+  },
+
+  async findByUser(req, res) {
+    const { userId } = req.params;
+
+    const sales = await saleService.findByUser(userId);
+
+    return res.status(200).json(sales);
+  },
+
+  async findBySeller(req, res) {
+    const { sellerId } = req.params;
+
+    const sales = await saleService.findBySeller(sellerId);
+
+    return res.status(200).json(sales);
   }
 };
 
