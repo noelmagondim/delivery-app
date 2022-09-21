@@ -6,33 +6,33 @@ const Sale = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: { model:'users', key: 'id' },
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },
-    seller_id: {
+    sellerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: { model:'users', key: 'id' },
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },
-    total_price: {
+    totalPrice: {
       type: DataTypes.DECIMAL(9, 2),
       allowNull: false,
     },
-    delivery_address: {
+    deliveryAddress: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    delivery_number: {
+    deliveryNumber: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    sale_date: {
+    saleDate: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -43,6 +43,7 @@ const Sale = (sequelize, DataTypes) => {
   }, {
     tableName: 'sales',
     timestamps: false,
+    underscored: true,
   })
 
   Sale.associate = (models) => {

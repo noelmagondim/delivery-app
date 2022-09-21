@@ -1,6 +1,5 @@
 const express = require('express');
 require('express-async-errors');
-const { User } = require('../database/models');
 const router = require('../routes');
 const errorHandler = require('../middlewares/errorHandler');
 

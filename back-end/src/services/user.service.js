@@ -1,7 +1,6 @@
 const md5 = require('md5');
 const token = require('../auth/createJWT');
 const { User } = require('../database/models');
-const customError = require('../utils/customError');
 
 const userService = {
   async login(email, password) {
