@@ -7,5 +7,6 @@ const saleController = require('../controllers/sale.controller');
 
  saleRouter.post('/', validateSale, saleController.create);
  saleRouter.patch('/status/:saleId', validateSaleStatus, saleController.updateStatus);
+ saleRouter.get('/:saleId', saleController.findById);
 
  module.exports = saleRouter;

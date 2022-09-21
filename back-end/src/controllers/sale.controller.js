@@ -15,8 +15,16 @@ const saleController = {
 
     const sale = await saleService.updateStatus(status);
 
-    return res.status(200).json(sale);
+    return res.status(201).json(sale);
   },
+
+  async findById(req, res) {
+    const { saleId } = req.params;
+
+    const sale = await saleService.findById(saleId);
+
+    return res.status(200).json(sale);
+  }
 };
 
 module.exports = saleController;
