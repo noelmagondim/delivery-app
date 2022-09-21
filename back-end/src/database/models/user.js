@@ -1,10 +1,10 @@
 const User = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const User = sequelize.define("User", {
     id: {
-      type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true,
       autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
     },
     name: {
       type: DataTypes.STRING,
@@ -12,6 +12,7 @@ const User = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      unique: true,
       allowNull: false,
     },
     password: {
@@ -21,18 +22,21 @@ const User = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: 'customer',
     },
-      timestamps: false,
-      tableName: 'users',
-      underscored: true,
-  });
+  }, {
+    tableName: 'users',
+    timestamps: false,
+  })
 
   User.associate = (models) => {
-    User.hasMany(models.Sale, { foreignKey: 'userId', as: 'sales' });
-    User.hasMany(models.Sale, { foreignKey: 'sellerId', as: 'sales' });
+    User.hasMany(models.Sale,
+      { foreignKey: 'userId', as: 'user' });
+    User.hasMany(models.Sale,
+      { foreignKey: 'sellerId', as: 'seller' });
   };
 
   return User;
-}
+};
 
 module.exports = User;
