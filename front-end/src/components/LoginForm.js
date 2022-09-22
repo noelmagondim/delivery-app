@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { requestLogin, requestData, setToken } from '../services/requests';
 
 export default function LoginForm() {
   const initialValue = {
     email: '',
     password: '',
   };
+
+  const [isLogged, setIsLogged] = useState(false);
+  const [failedTryLogin, setFailedTryLogin] = useState(false);
 
   const [values, setValues] = useState(initialValue);
 
@@ -14,10 +18,29 @@ export default function LoginForm() {
     setValues(values);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(values);
+
+    try {
+      const { token } = await requestLogin('/login', { email, password });
+      setToken(token);
+      const { name, role } = await requestData('/login', { email, password });
+
+      localStorage.setItem('name', name);
+      localStorage.setItem('email', email);
+      localStorage.setItem('role', role);
+      localStorage.setItem('token', token);
+
+      setIsLogged(true);
+    } catch (error) {
+      setFailedTryLogin(true);
+      setIsLogged(false);
+    }
   };
+
+  // if (isLogged) return <Navigate to="/products" />;
+  // comentei pois ainda não criei essa página
 
   return (
     <div>
@@ -45,6 +68,15 @@ export default function LoginForm() {
             required
           />
         </label>
+        {
+          (failedTryLogin)
+            ? (
+              <p data-testid="common_login__element-invalid-email">
+                { message }
+              </p>
+            )
+            : null
+        }
         <button
           data-testid="common_login__button-login"
           type="submit"
