@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { requestLogin, requestData, setToken } from '../services/requests';
 
 export default function LoginForm() {
-  const initialValue = {
-    email: '',
-    password: '',
-  };
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isValidButton, setValidButton] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
   const [failedTryLogin, setFailedTryLogin] = useState(false);
 
-  const [values, setValues] = useState(initialValue);
+  const validateEmail = (emaill) => {
+    const regex = /\S+@\S+\.\S+/;
+    return regex.test(emaill);
+  };
 
-  const handleChange = (event) => {
-    values[event.target.name] = event.target.value;
-    setValues(values);
+  const onChangeEmail = ({ target }) => {
+    setEmail(target.value);
+  };
+
+  const onChangePassword = ({ target }) => {
+    setPassword(target.value);
   };
 
   const handleFormSubmit = async (event) => {
@@ -39,8 +43,13 @@ export default function LoginForm() {
     }
   };
 
-  // if (isLogged) return <Navigate to="/products" />;
-  // comentei pois ainda não criei essa página
+  useEffect(() => {
+    if (validateEmail(email) && password.length >= Number('6')) {
+      setValidButton(true);
+    } else {
+      setValidButton(false);
+    }
+  }, [email, password]);
 
   return (
     <div>
@@ -53,7 +62,7 @@ export default function LoginForm() {
             name="email"
             id="input-email"
             placeholder="email@trybeer.com.br"
-            onChange={ handleChange }
+            onChange={ onChangeEmail }
             required
           />
         </label>
@@ -64,7 +73,7 @@ export default function LoginForm() {
             type="password"
             name="password"
             id="input-password"
-            onChange={ handleChange }
+            onChange={ onChangePassword }
             required
           />
         </label>
@@ -80,6 +89,7 @@ export default function LoginForm() {
         <button
           data-testid="common_login__button-login"
           type="submit"
+          disabled={ !isValidButton }
         >
           LOGIN
         </button>
