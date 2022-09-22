@@ -21,7 +21,12 @@ const userService = {
       role: user.role,
     });
 
-    return auth;
+    return { 
+      name: user.name, 
+      email: user.email, 
+      role: user.role, 
+      token: auth.token,
+    };
   },
 
   async getAll() {
@@ -56,7 +61,7 @@ const userService = {
   async create(name, email, hashPassword, role) {
     const user = await User.findOne({ where: { email } });
 
-    if (user) throw new CustomError(409, 'Email already registered');
+    if (user) throw new CustomError(409, 'Conflict');
 
     const password = md5(hashPassword);
   
