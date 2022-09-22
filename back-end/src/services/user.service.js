@@ -15,27 +15,32 @@ const userService = {
   
     if (hashPassword !== user.password) throw new CustomError(401, 'Incorrect email or password');
   
-    const { name, role } = user;
-  
-    const auth = token({ name, role });
+    const auth = token({ 
+      name: user.name, 
+      email: user.email, 
+      role: user.role,
+    });
 
     return auth;
   },
 
   async getAll() {
     const result = await User.findAll({
-      attributes: { exclude: ['password'] },
+      attributes: { 
+        exclude: ['password'] },
     });
+
     return result;
   },
-  
+
   async findUserById(id) {
     const user = await User.findByPk(id, {
       attributes: {
-        exclude: ['password']},
+        exclude: ['password'] },
         where: { id },
     });
-    if (!user) throw new customError(404, 'User does not exist');
+
+    if (!user) throw new CustomError(404, 'User does not exist');
 
     return user;
   },

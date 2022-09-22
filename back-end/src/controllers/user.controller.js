@@ -10,22 +10,24 @@ const userController = {
     return res.status(200).json(token);
   },
 
-  async getAll(req, res) {
+  async getAll(_req, res) {
     const result = await userService.getAll();
     
     return res.status(200).json(result);
   },
-  
+
   async findUserById(req, res) {
     const { id } = req.params;
-    const user = await userService.findUserById(id);
+
+    const user = await userService.findUserById(+id);
 
     if (user.message) {
-      return res.status(404).json({ message: 'Invalid id'});
+      return res.status(404).json({ message: 'Invalid id' });
     }
+
     return res.status(200).json(user);
   },
-  
+
   async loginValidate(req, res) {
     const token = req.headers.authorization;
 
@@ -33,7 +35,7 @@ const userController = {
 
     const user = await userService.loginValidate(token);
 
-    return res.status(200).json({ role: user.data.role });
+    return res.status(200).json({ role: user.role });
   },
 
   async create(req, res) {
