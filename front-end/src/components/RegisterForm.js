@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 export default function LoginForm() {
   const initialValue = {
-    nome: '',
+    name: '',
     email: '',
     password: '',
   };
@@ -25,7 +25,7 @@ export default function LoginForm() {
         <label htmlFor="input-name">
           Nome
           <input
-            data-testid="common_login__input-email"
+            data-testid="common_register__input-name"
             type="name"
             name="name"
             id="input-name"
@@ -37,7 +37,7 @@ export default function LoginForm() {
         <label htmlFor="input-email">
           Email
           <input
-            data-testid="common_login__input-email"
+            data-testid="common_register__input-email"
             type="email"
             name="email"
             id="input-email"
@@ -49,7 +49,7 @@ export default function LoginForm() {
         <label htmlFor="input-password">
           Senha
           <input
-            data-testid="common_login__input-password"
+            data-testid="common_register__input-password"
             type="password"
             name="password"
             id="input-password"
@@ -58,7 +58,7 @@ export default function LoginForm() {
           />
         </label>
         <button
-          data-testid="common_login__button-login"
+          data-testid="common_register__button-register"
           type="submit"
         >
           CADASTRAR

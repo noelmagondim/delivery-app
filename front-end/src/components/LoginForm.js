@@ -50,13 +50,13 @@ export default function LoginForm() {
         >
           LOGIN
         </button>
-        <button
-          data-testid="common_login__button-register"
-          type="submit"
-        >
-          Ainda não tenho conta
-        </button>
       </form>
+      <button
+        data-testid="common_login__button-register"
+        type="submit"
+      >
+        Ainda não tenho conta
+      </button>
     </div>
   );
 }
