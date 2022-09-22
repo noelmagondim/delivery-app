@@ -1,8 +1,13 @@
 import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Login from './page/Login';
 
 function App() {
   return (
-    <span>Iniciando frontend</span>
+    <Routes>
+      <Route exact path="/" element={ <Navigate to="login" replace /> } />
+      <Route exact path="/login" element={ <Login /> } />
+    </Routes>
   );
 }
 
