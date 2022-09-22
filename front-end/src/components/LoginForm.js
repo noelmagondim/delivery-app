@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import { requestLogin, requestData, setToken } from '../services/requests';
+import { Link, useNavigate } from 'react-router-dom';
+import { requestLogin, setToken } from '../services/requests';
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
   const [isValidButton, setValidButton] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
   const [failedTryLogin, setFailedTryLogin] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const validateEmail = (emaill) => {
     const regex = /\S+@\S+\.\S+/;
@@ -15,45 +17,54 @@ export default function LoginForm() {
   };
 
   const onChangeEmail = ({ target }) => {
-    setEmail(target.value);
+    setEmailInput(target.value);
   };
 
   const onChangePassword = ({ target }) => {
-    setPassword(target.value);
+    setPasswordInput(target.value);
   };
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    console.log(values);
-
-    try {
-      const { token } = await requestLogin('/login', { email, password });
-      setToken(token);
-      const { name, role } = await requestData('/login', { email, password });
-
-      localStorage.setItem('name', name);
-      localStorage.setItem('email', email);
-      localStorage.setItem('role', role);
-      localStorage.setItem('token', token);
-
-      setIsLogged(true);
-    } catch (error) {
-      setFailedTryLogin(true);
-      setIsLogged(false);
+  const handleNavigate = (role) => {
+    if (role === 'administrator') {
+      navigate('/admin/manage');
     }
+
+    navigate('/customer/products');
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    const response = await requestLogin('/users/login', { emailInput, passwordInput });
+
+    if (response.status >= Number('400')) {
+      setMessage(response.data.message);
+      setFailedTryLogin(true);
+    }
+
+    const { data: { token, name, email, role } } = response;
+
+    setToken(token);
+
+    localStorage.setItem('name', name);
+    localStorage.setItem('email', email);
+    localStorage.setItem('role', role);
+    localStorage.setItem('token', token);
+
+    return role && handleNavigate(role);
   };
 
   useEffect(() => {
-    if (validateEmail(email) && password.length >= Number('6')) {
+    if (validateEmail(emailInput) && passwordInput.length >= Number('6')) {
       setValidButton(true);
     } else {
       setValidButton(false);
     }
-  }, [email, password]);
+  }, [emailInput, passwordInput]);
 
   return (
     <div>
-      <form onSubmit={ handleFormSubmit }>
+      <form>
         <label htmlFor="input-email">
           Login
           <input
@@ -78,10 +89,10 @@ export default function LoginForm() {
           />
         </label>
         {
-          (failedTryLogin)
+          failedTryLogin
             ? (
               <p data-testid="common_login__element-invalid-email">
-                { message }
+                {message}
               </p>
             )
             : null
@@ -89,6 +100,7 @@ export default function LoginForm() {
         <button
           data-testid="common_login__button-login"
           type="submit"
+          onClick={ handleLogin }
           disabled={ !isValidButton }
         >
           LOGIN

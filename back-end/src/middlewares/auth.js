@@ -1,5 +1,6 @@
-const CustomError = require('../errors/CustomError');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const CustomError = require('../errors/CustomError');
 
 const auth = async (req, _res, next) => {
   const { authorization } = req.headers;
@@ -11,6 +12,6 @@ const auth = async (req, _res, next) => {
   await jwt.verify(authorization, secret);
 
   next();
-}
+};
 
 module.exports = auth;
