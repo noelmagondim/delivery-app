@@ -21,10 +21,6 @@ const userController = {
 
     const user = await userService.findUserById(+id);
 
-    if (user.message) {
-      return res.status(404).json({ message: 'Invalid id' });
-    }
-
     return res.status(200).json(user);
   },
 
