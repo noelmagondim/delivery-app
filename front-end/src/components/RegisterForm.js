@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 export default function LoginForm() {
   const initialValue = {
+    name: '',
     email: '',
     password: '',
   };
@@ -22,22 +22,34 @@ export default function LoginForm() {
   return (
     <div>
       <form onSubmit={ handleFormSubmit }>
-        <label htmlFor="input-email">
-          Login
+        <label htmlFor="input-name">
+          Nome
           <input
-            data-testid="common_login__input-email"
+            data-testid="common_register__input-name"
+            type="name"
+            name="name"
+            id="input-name"
+            placeholder="Seu nome"
+            onChange={ handleChange }
+            required
+          />
+        </label>
+        <label htmlFor="input-email">
+          Email
+          <input
+            data-testid="common_register__input-email"
             type="email"
             name="email"
             id="input-email"
-            placeholder="email@trybeer.com.br"
+            placeholder="seu-email@site.com.br"
             onChange={ handleChange }
             required
           />
         </label>
         <label htmlFor="input-password">
-          Senha:
+          Senha
           <input
-            data-testid="common_login__input-password"
+            data-testid="common_register__input-password"
             type="password"
             name="password"
             id="input-password"
@@ -46,20 +58,12 @@ export default function LoginForm() {
           />
         </label>
         <button
-          data-testid="common_login__button-login"
+          data-testid="common_register__button-register"
           type="submit"
         >
-          LOGIN
+          CADASTRAR
         </button>
       </form>
-      <Link to="/register">
-        <button
-          data-testid="common_login__button-register"
-          type="submit"
-        >
-          Ainda não tenho conta
-        </button>
-      </Link>
     </div>
   );
 }
