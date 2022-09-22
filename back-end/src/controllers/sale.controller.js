@@ -40,7 +40,7 @@ const saleController = {
     const sales = await saleService.findBySeller(sellerId);
 
     return res.status(200).json(sales);
-  }
+  },
 };
 
 module.exports = saleController;

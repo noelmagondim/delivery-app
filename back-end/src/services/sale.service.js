@@ -1,4 +1,4 @@
-const { CustomError } = require('puppeteer');
+const CustomError = require('../errors/CustomError');
 const { Sale, SalesProducts, Product, sequelize } = require('../database/models');
 
 const saleService = {
@@ -9,7 +9,7 @@ const saleService = {
   },
 
   async updateStatus(status, id) {
-    const sale = Sale.update({ status }, { where: { id } });
+    const sale = await Sale.update({ status }, { where: { id } });
 
     return sale;
   },
@@ -36,8 +36,8 @@ const saleService = {
   },
 
   async findById(id) {
-    const sale = Sale.findByPk(id, {
-      include: [{ model: Product, as: 'products' }]   
+    const sale = await Sale.findByPk(id, {
+      include: [{ model: Product, as: 'products' }],  
     });
 
     if (!sale) throw new CustomError(401, 'Sale not found');
@@ -46,7 +46,7 @@ const saleService = {
   },
 
   async findByUser(userId) {
-    const sales = Sale.findAll({where: { userId }});
+    const sales = await Sale.findAll({ where: { userId } });
 
     if (!sales) throw new CustomError(401, 'User doesn\'t have order\'s yet');
 
@@ -54,12 +54,12 @@ const saleService = {
   },
 
   async findBySeller(sellerId) {
-    const sales = Sale.findAll({where: { sellerId }});
+    const sales = await Sale.findAll({ where: { sellerId } });
 
     if (!sales) throw new CustomError(401, 'Seller doesen\'t have sales yet');
 
     return sales;
-  }
+  },
 };
 
 module.exports = saleService;
