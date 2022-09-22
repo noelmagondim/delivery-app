@@ -3,7 +3,7 @@ const { Sale, SalesProducts, Product, sequelize } = require('../database/models'
 
 const saleService = {
   async create(payload) {
-    const sale = this.saleTransaction(payload);
+    const sale = await this.saleTransaction(payload);
 
     return sale;
   },
@@ -48,7 +48,7 @@ const saleService = {
   async findByUser(userId) {
     const sales = await Sale.findAll({ where: { userId } });
 
-    if (!sales) throw new CustomError(401, 'User doesn\'t have order\'s yet');
+    if (sales.length === 0) throw new CustomError(401, 'User doesn\'t have order\'s yet');
 
     return sales;
   },
@@ -56,7 +56,7 @@ const saleService = {
   async findBySeller(sellerId) {
     const sales = await Sale.findAll({ where: { sellerId } });
 
-    if (!sales) throw new CustomError(401, 'Seller doesen\'t have sales yet');
+    if (sales.length === 0) throw new CustomError(401, 'Seller doesen\'t have sales yet');
 
     return sales;
   },
