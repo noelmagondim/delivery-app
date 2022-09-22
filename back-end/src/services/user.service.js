@@ -61,7 +61,7 @@ const userService = {
   async create(name, email, hashPassword, role) {
     const user = await User.findOne({ where: { email } });
 
-    if (user) throw new CustomError(409, 'Conflict');
+    if (user) throw new CustomError(409, 'Email already registered');
 
     const password = md5(hashPassword);
   
