@@ -1,4 +1,6 @@
 const md5 = require('md5');
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
 const token = require('../auth/createJWT');
 const { User } = require('../database/models');
 const CustomError = require('../errors/CustomError');
@@ -38,6 +40,14 @@ const userService = {
     return user;
   },
   
+  async loginValidate(tokenLogin) {
+    const SECRET = fs.readFileSync('jwt.evaluation.key', 'utf8') || process.env.JWT_SECRET;
+
+    const user = await jwt.verify(tokenLogin, SECRET);
+
+    return user;
+  },
+
   async create(name, email, hashPassword, role) {
     const user = await User.findOne({ where: { email } });
 

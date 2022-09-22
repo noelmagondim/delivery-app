@@ -1,7 +1,12 @@
 const errorHandler = (err, _req, res, _next) => {
-  const { status, message } = err;
+  let { statusCode, message } = err;
 
-  return res.status(status || 500).json({ message });
+  if (message === 'jwt malformed') {
+    statusCode = 401;
+    message = 'Token must be a valid token';
+  }
+
+  return res.status(statusCode || 500).json({ message });
 };
 
 module.exports = errorHandler;
