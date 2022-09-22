@@ -5,7 +5,7 @@ import Login from './page/Login';
 function App() {
   return (
     <Routes>
-      <Route exact path="/" element={ <Navigate to="login" replace /> } />
+      <Route exact path="/" element={ <Navigate to="/login" replace /> } />
       <Route exact path="/login" element={ <Login /> } />
     </Routes>
   );
