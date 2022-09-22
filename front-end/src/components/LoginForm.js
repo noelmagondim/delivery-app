@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function LoginForm() {
   const initialValue = {
@@ -51,12 +52,14 @@ export default function LoginForm() {
           LOGIN
         </button>
       </form>
-      <button
-        data-testid="common_login__button-register"
-        type="submit"
-      >
-        Ainda não tenho conta
-      </button>
+      <Link to="/register">
+        <button
+          data-testid="common_login__button-register"
+          type="submit"
+        >
+          Ainda não tenho conta
+        </button>
+      </Link>
     </div>
   );
 }
