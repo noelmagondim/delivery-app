@@ -27,6 +27,12 @@ export default function LoginForm() {
   const handleNavigate = (role) => {
     if (role === 'administrator') {
       navigate('/admin/manage');
+      return;
+    }
+
+    if (role === 'seller') {
+      navigate('/seller/orders');
+      return;
     }
 
     navigate('/customer/products');
