@@ -1,27 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { requestRegister } from '../services/requests';
 
 export default function LoginForm() {
-  const initialValue = {
-    name: '',
-    email: '',
-    password: '',
+  const [nameInput, setNameInput] = useState('');
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+  const [isValidButton, setValidButton] = useState(false);
+  const [failedTryRegister, setFailedTryRegister] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const validateEmail = (emaill) => {
+    const regex = /\S+@\S+\.\S+/;
+    return regex.test(emaill);
   };
 
-  const [values, setValues] = useState(initialValue);
-
-  const handleChange = (event) => {
-    values[event.target.name] = event.target.value;
-    setValues(values);
+  const onChangeName = ({ target }) => {
+    setNameInput(target.value);
   };
 
-  const handleFormSubmit = (event) => {
+  const onChangeEmail = ({ target }) => {
+    setEmailInput(target.value);
+  };
+
+  const onChangePassword = ({ target }) => {
+    setPasswordInput(target.value);
+  };
+
+  const handleRegister = async (event) => {
     event.preventDefault();
-    console.log(values);
+
+    const response = await requestRegister(
+      '/users/register',
+      { nameInput, emailInput, passwordInput, role: 'customer' },
+    );
+
+    if (response.status >= Number('400')) {
+      setMessage(response.data.message);
+      setFailedTryRegister(true);
+    }
   };
+
+  useEffect(() => {
+    if (validateEmail(emailInput)
+     && passwordInput.length >= Number('6')
+      && nameInput.length >= Number('12')) {
+      setValidButton(true);
+    } else {
+      setValidButton(false);
+    }
+  }, [nameInput, emailInput, passwordInput]);
 
   return (
     <div>
-      <form onSubmit={ handleFormSubmit }>
+      <form>
         <label htmlFor="input-name">
           Nome
           <input
@@ -30,7 +61,7 @@ export default function LoginForm() {
             name="name"
             id="input-name"
             placeholder="Seu nome"
-            onChange={ handleChange }
+            onChange={ onChangeName }
             required
           />
         </label>
@@ -42,7 +73,7 @@ export default function LoginForm() {
             name="email"
             id="input-email"
             placeholder="seu-email@site.com.br"
-            onChange={ handleChange }
+            onChange={ onChangeEmail }
             required
           />
         </label>
@@ -53,13 +84,24 @@ export default function LoginForm() {
             type="password"
             name="password"
             id="input-password"
-            onChange={ handleChange }
+            onChange={ onChangePassword }
             required
           />
         </label>
+        {
+          failedTryRegister
+            ? (
+              <p data-testid="common_register__element-invalid_register">
+                {message}
+              </p>
+            )
+            : null
+        }
         <button
           data-testid="common_register__button-register"
           type="submit"
+          disabled={ !isValidButton }
+          onClick={ handleRegister }
         >
           CADASTRAR
         </button>

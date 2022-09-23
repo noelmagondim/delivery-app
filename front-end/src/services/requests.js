@@ -23,4 +23,18 @@ export const requestLogin = async (endpoint, body) => {
   return response;
 };
 
+export const requestRegister = async (endpoint, body) => {
+  const request = {
+    name: body.nameInput,
+    email: body.emailInput,
+    password: body.passwordInput,
+    role: 'customer',
+  };
+
+  const response = await api.post(endpoint, request)
+    .catch((error) => error.response);
+
+  return response;
+};
+
 export default api;
