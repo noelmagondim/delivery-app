@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { requestRegister } from '../services/requests';
+import { useNavigate } from 'react-router-dom';
+import { requestRegister, requestLogin, setToken } from '../services/requests';
 
 export default function LoginForm() {
   const [nameInput, setNameInput] = useState('');
@@ -8,6 +9,8 @@ export default function LoginForm() {
   const [isValidButton, setValidButton] = useState(false);
   const [failedTryRegister, setFailedTryRegister] = useState(false);
   const [message, setMessage] = useState('');
+
+  const navigate = useNavigate();
 
   const validateEmail = (emaill) => {
     const regex = /\S+@\S+\.\S+/;
@@ -37,7 +40,28 @@ export default function LoginForm() {
     if (response.status >= Number('400')) {
       setMessage(response.data.message);
       setFailedTryRegister(true);
+      return;
     }
+
+    const responseLogin = await
+    requestLogin('/users/login', { emailInput, passwordInput });
+
+    if (responseLogin.status >= Number('400')) {
+      setMessage(response.data.message);
+      setFailedTryLogin(true);
+      return;
+    }
+
+    const { data: { token, name, email, role } } = response;
+
+    setToken(token);
+
+    localStorage.setItem('name', name);
+    localStorage.setItem('email', email);
+    localStorage.setItem('role', role);
+    localStorage.setItem('token', token);
+
+    navigate('/customer/products');
   };
 
   useEffect(() => {
