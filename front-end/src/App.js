@@ -5,6 +5,7 @@ import Register from './page/Register';
 import Customer from './page/Customer';
 import Seller from './page/Seller';
 import Admin from './page/Admin';
+import CostumerOrders from './page/CustomerOrders';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route exact path="/customer/products" element={ <Customer /> } />
       <Route exact path="/seller/orders" element={ <Seller /> } />
       <Route exact path="/admin/manage" element={ <Admin /> } />
+      <Route exact path="/customer/orders" element={ <CostumerOrders /> } />
     </Routes>
   );
 }

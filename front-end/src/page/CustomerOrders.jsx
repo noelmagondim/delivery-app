@@ -7,6 +7,7 @@ export default function CostumerOrders() {
   return (
     <div>
       <NavBar />
+      <h1>Pedidos</h1>
       <CardsCustomerOrders />
       <Footer />
     </div>
