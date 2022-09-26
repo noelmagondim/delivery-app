@@ -55,7 +55,6 @@ export default function LoginForm() {
     const { data: { token, name, email, role } } = response;
 
     setToken(token);
-
     localStorage.setItem('name', name);
     localStorage.setItem('email', email);
     localStorage.setItem('role', role);
