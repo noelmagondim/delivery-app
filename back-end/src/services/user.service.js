@@ -65,9 +65,11 @@ const userService = {
 
     const password = md5(hashPassword);
   
-    const newUser = await User.create({ name, email, password, role });
+    await User.create({ name, email, password, role });
 
-    return newUser;
+    const token = await this.login(email, hashPassword);
+
+    return token;
   },
 };
 
