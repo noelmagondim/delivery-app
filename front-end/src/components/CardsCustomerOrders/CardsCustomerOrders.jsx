@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function CardPedido() {
+export default function CardsCustomerOrders() {
   const navigate = useNavigate();
 
   return data.map((element, index) => (
