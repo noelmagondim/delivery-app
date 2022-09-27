@@ -67,9 +67,9 @@ const userService = {
   
     await User.create({ name, email, password, role });
 
-    const token = await this.login(email, hashPassword);
+    const login = await this.login(email, hashPassword);
 
-    return token;
+    return login;
   },
 };
 

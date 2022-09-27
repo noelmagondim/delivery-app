@@ -1,5 +1,5 @@
 const CustomError = require('../errors/CustomError');
-const { Sale, SalesProducts, Product, sequelize } = require('../database/models');
+const { Sale, SalesProducts, Product, sequelize, User } = require('../database/models');
 
 const saleService = {
   async create(payload) {
@@ -37,7 +37,8 @@ const saleService = {
 
   async findById(id) {
     const sale = await Sale.findByPk(id, {
-      include: [{ model: Product, as: 'products' }],  
+      include: [{ model: Product, as: 'products' },
+      { model: User, as: 'seller' }],  
     });
 
     if (!sale) throw new CustomError(401, 'Sale not found');
