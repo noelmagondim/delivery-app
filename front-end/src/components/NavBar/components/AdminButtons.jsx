@@ -10,19 +10,23 @@ export default function AdminButtons({ logout, name }) {
       <li>
         <button
           type="button"
+          data-testid="customer_products__element-navbar-link-orders"
           onClick={ navigate('/admin/manage') }
         >
           Gerenciar Usuarios
         </button>
       </li>
       <li>
-        <h1>
+        <h1
+          data-testid="customer_products__element-navbar-user-full-name"
+        >
           {name}
         </h1>
       </li>
       <li>
         <button
           type="button"
+          data-testid="customer_products__element-navbar-link-logout"
           onClick={ logout }
         >
           Sair

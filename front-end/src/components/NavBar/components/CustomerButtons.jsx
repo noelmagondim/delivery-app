@@ -10,27 +10,32 @@ export default function CustomerButtons({ logout, name }) {
       <li>
         <button
           type="button"
+          data-testid="customer_products__element-navbar-link-products"
           onClick={ navigate('/customer/products') }
         >
-          Pedidos
+          Produtos
         </button>
       </li>
       <li>
         <button
           type="button"
+          data-testid="customer_products__element-navbar-link-orders"
           onClick={ navigate('/customer/orders') }
         >
           Meus Pedidos
         </button>
       </li>
       <li>
-        <h1>
+        <h1
+          data-testid="customer_products__element-navbar-user-full-name"
+        >
           {name}
         </h1>
       </li>
       <li>
         <button
           type="button"
+          data-testid="customer_products__element-navbar-link-logout"
           onClick={ logout }
         >
           Sair
