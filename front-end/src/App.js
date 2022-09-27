@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './page/Login';
 import Register from './page/Register';
 import Customer from './page/Customer';
-import Seller from './page/Seller';
 import Admin from './page/Admin';
 import OrderDetails from './page/OrderDetails';
 import CostumerOrders from './page/CustomerOrders';
@@ -15,7 +14,6 @@ function App() {
       <Route exact path="/login" element={ <Login /> } />
       <Route exact path="/register" element={ <Register /> } />
       <Route exact path="/customer/products" element={ <Customer /> } />
-      <Route exact path="/seller/orders" element={ <Seller /> } />
       <Route exact path="/admin/manage" element={ <Admin /> } />
       <Route
         exact
@@ -32,6 +30,7 @@ function App() {
         }
       />
       <Route exact path="/customer/orders" element={ <CostumerOrders /> } />
+      <Route exact path="/seller/orders" element={ <CostumerOrders /> } />
     </Routes>
   );
 }

@@ -40,7 +40,9 @@ export const requestRegister = async (endpoint, body) => {
 export const requestSaleChangeStatus = async (saleId, body) => {
   const url = `/sales/status/${saleId}`;
 
-  await api.patch(url, body).catch((error) => error.response);
+  const requestBody = { status: body };
+
+  await api.patch(url, requestBody).catch((error) => error.response);
 };
 
 export const requestOrderDetails = async (orderId) => {
@@ -53,6 +55,14 @@ export const requestOrderDetails = async (orderId) => {
 
 export const requestCustomerOrders = async (id) => {
   const URL = `/sales/user/${id}`;
+
+  const response = await api.get(URL).catch((error) => error.response);
+
+  return response;
+};
+
+export const requestSellerOrders = async (id) => {
+  const URL = `/sales/seller/${id}`;
 
   const response = await api.get(URL).catch((error) => error.response);
 

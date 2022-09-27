@@ -1,36 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
-export default function CardsCustomerOrders({ order }) {
-  const navigate = useNavigate();
-  console.log(order);
+export default function CardsCustomerOrders({ order, role }) {
   return (
     <div>
-      <button
-        type="button"
-        onClick={ navigate`/customer/orders/:${order.id}` }
+      <p
+        data-testid={
+          role === 'customer'
+            ? `customer_orders__element-order-id-${order.id}`
+            : `seller_orders__element-order-id-${order.id}`
+        }
       >
-        <p data-testid="customer_orders__element-order-id-<id>">
-          {order.id}
-        </p>
+        {order.id}
+      </p>
 
-        <p data-testid="customer_orders__element-delivery-status-<id>">
-          {order.status}
-        </p>
+      <p
+        data-testid={
+          role === 'customer'
+            ? `customer_orders__element-delivery-status-${order.id}`
+            : `seller_orders__element-delivery-status-${order.id}`
+        }
+      >
+        {order.status}
+      </p>
 
-        <p data-testid="customer_orders__element-order-date-<id>">
-          {order.saleDate}
-        </p>
+      <p
+        data-testid={
+          role === 'customer'
+            ? `customer_orders__element-order-date-${order.id}`
+            : `seller_orders__element-order-date-${order.id}`
+        }
+      >
+        { moment(order.saleDate).format('DD/MM/YYYY') }
+      </p>
 
-        <p data-testid="customer_orders__element-card-price-<id>">
-          {order.totalPrice}
+      <p
+        data-testid={
+          role === 'customer'
+            ? `customer_orders__element-card-price-${order.id}`
+            : `seller_orders__element-card-price-${order.id}`
+        }
+      >
+        {order.totalPrice}
+      </p>
+      { role === 'seller' && (
+        <p>
+          { order.deliveryAddress }
         </p>
-      </button>
+      ) }
     </div>
   );
 }
 
 CardsCustomerOrders.propTypes = {
   order: PropTypes.objectOf(PropTypes.string).isRequired,
+  role: PropTypes.string.isRequired,
 };
