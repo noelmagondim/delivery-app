@@ -14,7 +14,7 @@ export default function OrderDetailsCard() {
   const { orderId } = useParams();
 
   const getDetails = async () => {
-    setToken(localStorage.getItem('token'));
+    setToken(JSON.parse(localStorage.getItem('user')).token);
 
     const { data } = await requestOrderDetails(orderId);
     const { products, seller } = data;
@@ -28,7 +28,7 @@ export default function OrderDetailsCard() {
 
   useEffect(() => {
     getDetails();
-    const value = localStorage.getItem('role');
+    const value = JSON.parse(localStorage.getItem('user')).role;
 
     setRole(value);
   }, []);

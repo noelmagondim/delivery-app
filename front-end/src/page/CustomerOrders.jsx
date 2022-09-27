@@ -12,23 +12,23 @@ export default function CostumerOrders() {
   const [role, setRole] = useState('');
 
   const getCustomerOrders = async () => {
-    setToken(localStorage.getItem('token'));
+    setToken(JSON.parse(localStorage.getItem('user')).token);
 
-    const orderId = localStorage.getItem('id');
-    const { data } = await requestCustomerOrders(orderId);
+    const { id } = JSON.parse(localStorage.getItem('user'));
+    const { data } = await requestCustomerOrders(id);
     setOrders(data);
   };
 
   const getSellerOrders = async () => {
-    setToken(localStorage.getItem('token'));
+    setToken(JSON.parse(localStorage.getItem('user')).token);
 
-    const orderId = localStorage.getItem('id');
-    const { data } = await requestSellerOrders(orderId);
+    const { id } = JSON.parse(localStorage.getItem('id'));
+    const { data } = await requestSellerOrders(id);
     setOrders(data);
   };
 
   useEffect(() => {
-    const data = localStorage.getItem('role');
+    const data = JSON.parse(localStorage.getItem('user')).role;
 
     setRole(data);
 

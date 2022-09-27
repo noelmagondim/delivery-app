@@ -10,8 +10,7 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   const getUserInfo = () => {
-    const name = localStorage.getItem('name');
-    const role = localStorage.getItem('role');
+    const { name, role } = JSON.parse(localStorage.getItem('user'));
 
     setUser({ name, role });
   };
@@ -22,7 +21,7 @@ export default function NavBar() {
   };
 
   const tokenNotFound = () => {
-    const token = localStorage.getItem('token');
+    const { token } = JSON.parse(localStorage.getItem('user'));
 
     if (!token) navigate('/login');
   };

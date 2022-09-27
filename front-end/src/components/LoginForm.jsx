@@ -52,11 +52,7 @@ export default function LoginForm() {
 
     setToken(token);
 
-    localStorage.setItem('id', id);
-    localStorage.setItem('name', name);
-    localStorage.setItem('email', email);
-    localStorage.setItem('role', role);
-    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify({ id, name, email, role, token }));
 
     return role && handleNavigate(role);
   };
