@@ -5,6 +5,7 @@ import Register from './page/Register';
 import Customer from './page/Customer';
 import Seller from './page/Seller';
 import Admin from './page/Admin';
+import OrderDetails from './page/OrderDetails';
 
 function App() {
   return (
@@ -15,6 +16,20 @@ function App() {
       <Route exact path="/customer/products" element={ <Customer /> } />
       <Route exact path="/seller/orders" element={ <Seller /> } />
       <Route exact path="/admin/manage" element={ <Admin /> } />
+      <Route
+        exact
+        path="/customer/orders/:orderId"
+        element={
+          <OrderDetails />
+        }
+      />
+      <Route
+        exact
+        path="/seller/orders/:orderId"
+        element={
+          <OrderDetails />
+        }
+      />
     </Routes>
   );
 }

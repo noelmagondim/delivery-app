@@ -37,4 +37,18 @@ export const requestRegister = async (endpoint, body) => {
   return response;
 };
 
+export const requestSaleChangeStatus = async (saleId, body) => {
+  const url = `/sales/status/${saleId}`;
+
+  await api.patch(url, body).catch((error) => error.response);
+};
+
+export const requestOrderDetails = async (orderId) => {
+  const url = `/sales/${orderId}`;
+
+  const response = await api.get(url).catch((error) => error.response);
+
+  return response;
+};
+
 export default api;
