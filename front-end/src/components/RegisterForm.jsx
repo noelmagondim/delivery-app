@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { requestRegister, requestLogin, setToken } from '../services/requests';
+import { requestRegister, setToken } from '../services/requests';
 
 export default function LoginForm() {
   const [nameInput, setNameInput] = useState('');
@@ -43,18 +43,10 @@ export default function LoginForm() {
       return;
     }
 
-    const responseLogin = await
-    requestLogin('/users/login', { emailInput, passwordInput });
-
-    if (responseLogin.status >= Number('400')) {
-      setMessage(response.data.message);
-      setFailedTryLogin(true);
-      return;
-    }
-
-    const { data: { token, name, email, role } } = response;
+    const { data: { token, name, email, role, id } } = response;
 
     setToken(token);
+    localStorage.setItem('id', id);
     localStorage.setItem('name', name);
     localStorage.setItem('email', email);
     localStorage.setItem('role', role);

@@ -5,13 +5,17 @@ import { useNavigate } from 'react-router-dom';
 export default function CustomerButtons({ logout, name }) {
   const navigate = useNavigate();
 
+  const handleRedirect = (route) => {
+    navigate(route);
+  };
+
   return (
     <>
       <li>
         <button
           type="button"
           data-testid="customer_products__element-navbar-link-products"
-          onClick={ navigate('/customer/products') }
+          onClick={ () => handleRedirect('/customer/products') }
         >
           Produtos
         </button>
@@ -20,7 +24,7 @@ export default function CustomerButtons({ logout, name }) {
         <button
           type="button"
           data-testid="customer_products__element-navbar-link-orders"
-          onClick={ navigate('/customer/orders') }
+          onClick={ () => handleRedirect('/customer/orders') }
         >
           Meus Pedidos
         </button>
