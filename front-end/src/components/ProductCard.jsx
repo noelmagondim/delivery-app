@@ -1,64 +1,51 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function ProductCard({ product }) {
-  const { id, name, urlImage, price } = product;
+export default function ProductCard({
+  product,
+  handleInput }) {
+  const [input, setInput] = useState(0);
 
-  const [quantity, setQuantity] = useState(() => {
-    if (!cart || cart.length === 0) return 0;
-
-    const productInCart = cart.find(({ id: productId }) => productId === id);
-    return productInCart ? productInCart.qty : 0;
-  });
-
-  const addCart = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const removeCart = () => {
-    const newQuantity = quantity - 1;
-    if (newQuantity >= 0) {
-      setQuantity(newQuantity);
-    }
-  };
+  useEffect(() => input > 0 && handleInput(input, product), [input]);
 
   return (
     <div>
       <img
-        alt={ name }
-        data-testid={ `customer_products__img-card-bg-image-${id}` }
-        src={ urlImage }
+        alt={ product.name }
+        data-testid={ `customer_products__img-card-bg-image-${product.id}` }
+        src={ product.urlImage }
       />
       <span
-        data-testid={ `customer_products__element-card-title-${id}` }
+        data-testid={ `customer_products__element-card-title-${product.id}` }
       >
-        { name }
+        { product.name }
       </span>
       <p>
         R$
         <span
-          data-testid={ `customer_products__element-card-price-${id}` }
+          data-testid={ `customer_products__element-card-price-${product.id}` }
         >
-          { price }
+          { product.price.toString().replace('.', ',') }
         </span>
       </p>
       <input
-        data-testid={ `customer_products__input-card-quantity-${id}` }
+        data-testid={ `customer_products__input-card-quantity-${product.id}` }
+        value={ input }
         type="number"
-        value={ quantity }
+        onChange={ ({ target }) => setInput(Number(target.value)) }
       />
       <div>
         <button
-          data-testid={ `customer_products__button-card-rm-item-${id}` }
+          data-testid={ `customer_products__button-card-rm-item-${product.id}` }
           type="button"
-          onClick={ removeCart }
+          onClick={ () => input > 0 && setInput(input - 1) }
         >
           -
         </button>
         <button
-          data-testid={ `customer_products__button-card-add-item-${id}` }
+          data-testid={ `customer_products__button-card-add-item-${product.id}` }
           type="button"
-          onClick={ addCart }
+          onClick={ () => setInput(input + 1) }
         >
           +
         </button>
@@ -73,5 +60,14 @@ ProductCard.propTypes = {
     name: PropTypes.string,
     urlImage: PropTypes.string,
     price: PropTypes.string,
+    quantity: PropTypes.number,
   }).isRequired,
+  cart: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    urlImage: PropTypes.string,
+    price: PropTypes.string,
+    quantity: PropTypes.number,
+  }).isRequired,
+  handleInput: PropTypes.func.isRequired,
 };

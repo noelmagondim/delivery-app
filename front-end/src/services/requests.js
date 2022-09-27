@@ -14,11 +14,6 @@ export const requestData = async (endpoint) => {
   return data;
 };
 
-export const requestProducts = async (endpoint) => {
-  const { data } = await api.get(endpoint);
-  return data;
-};
-
 export const requestLogin = async (endpoint, body) => {
   const request = { email: body.emailInput, password: body.passwordInput };
 
@@ -26,6 +21,14 @@ export const requestLogin = async (endpoint, body) => {
     .catch((error) => error.response);
 
   return response;
+};
+
+export const requestProducts = async () => {
+  const url = '/customer/products';
+
+  const { data } = await api.get(url).catch((error) => error.response);
+
+  return data;
 };
 
 export const requestRegister = async (endpoint, body) => {
