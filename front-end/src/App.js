@@ -6,6 +6,7 @@ import Customer from './page/Customer';
 import Seller from './page/Seller';
 import Admin from './page/Admin';
 import OrderDetails from './page/OrderDetails';
+import CostumerOrders from './page/CustomerOrders';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <OrderDetails />
         }
       />
+      <Route exact path="/customer/orders" element={ <CostumerOrders /> } />
     </Routes>
   );
 }

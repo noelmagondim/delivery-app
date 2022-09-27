@@ -51,4 +51,12 @@ export const requestOrderDetails = async (orderId) => {
   return response;
 };
 
+export const requestCustomerOrders = async (id) => {
+  const URL = `/sales/user/${id}`;
+
+  const response = await api.get(URL).catch((error) => error.response);
+
+  return response;
+};
+
 export default api;

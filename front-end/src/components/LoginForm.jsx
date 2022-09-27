@@ -48,10 +48,11 @@ export default function LoginForm() {
       setFailedTryLogin(true);
     }
 
-    const { data: { token, name, email, role } } = response;
+    const { data: { token, name, email, role, id } } = response;
 
     setToken(token);
 
+    localStorage.setItem('id', id);
     localStorage.setItem('name', name);
     localStorage.setItem('email', email);
     localStorage.setItem('role', role);
