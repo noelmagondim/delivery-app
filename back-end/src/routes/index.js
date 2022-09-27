@@ -7,6 +7,6 @@ const router = Router();
 
 router.use('/users', userRouter);
 router.use('/sales', saleRouter);
-router.use('/products', productsRouter);
+router.use('/customer', productsRouter);
 
 module.exports = router;
