@@ -77,4 +77,20 @@ export const requestSellerOrders = async (id) => {
   return response;
 };
 
+export const requestSellers = async () => {
+  const url = '/users/sellers';
+
+  const { data } = await api.get(url).catch((error) => error.response);
+
+  return data;
+};
+
+export const requestCreateOrder = async (body) => {
+  const url = '/sales';
+
+  const { data } = await api.post(url, body).catch((error) => error.response);
+
+  return data;
+};
+
 export default api;
