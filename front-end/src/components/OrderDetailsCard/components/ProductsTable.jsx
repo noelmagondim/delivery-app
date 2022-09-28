@@ -43,14 +43,14 @@ export default function ProductsTable({ products, role }) {
                   ? `customer_orders__element-order-table-unit-price-${id}`
                   : `seller_order_details__element-order-table-unit-price-${id}` }
               >
-                { price }
+                { price.toString().replace('.', ',') }
               </td>
               <td
                 data-testid={ role === 'customer'
                   ? `customer_orders__element-order-table-sub-total-${id}`
                   : `seller_order_details__element-order-table-sub-total-${id}` }
               >
-                { subTotal }
+                { subTotal.toFixed(2).toString().replace('.', ',') }
               </td>
             </tr>
           );
@@ -66,7 +66,7 @@ export default function ProductsTable({ products, role }) {
         {products && products.reduce((acc, { price, SalesProducts: { quantity } }) => {
           const subTotal = price * quantity;
           return acc + subTotal;
-        }, 0)}
+        }, 0).toFixed(2).toString().replace('.', ',')}
       </span>
     </>
   );

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { requestSaleChangeStatus } from '../../../services/requests';
 
-export default function CustomerHeader({ sale, seller }) {
+export default function CustomerHeader({ sale, seller, changeStatus }) {
   return (
     <>
       <span
@@ -31,8 +30,9 @@ export default function CustomerHeader({ sale, seller }) {
       <button
         data-testid="customer_order_details__button-delivery-check"
         type="button"
+        disabled={ sale.status !== 'Em Trânsito' }
         onClick={ async () => {
-          await requestSaleChangeStatus(sale.id, 'Entregue');
+          await changeStatus('Entregue');
         } }
       >
         MARCAR COMO ENTREGUE
@@ -44,4 +44,5 @@ export default function CustomerHeader({ sale, seller }) {
 CustomerHeader.propTypes = {
   sale: PropTypes.objectOf(PropTypes.number).isRequired,
   seller: PropTypes.objectOf(PropTypes.string).isRequired,
+  changeStatus: PropTypes.func.isRequired,
 };

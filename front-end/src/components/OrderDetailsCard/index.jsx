@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import CustomerHeader from './components/CustomerHeader';
 import ProductsTable from './components/ProductsTable';
-import { requestOrderDetails, setToken } from '../../services/requests';
+import { requestOrderDetails,
+  requestSaleChangeStatus, setToken } from '../../services/requests';
 import SellerHeader from './components/SellerHeader';
 
 export default function OrderDetailsCard() {
@@ -26,18 +27,35 @@ export default function OrderDetailsCard() {
     setSaleInfo(data);
   };
 
+  const changeStatus = async (status) => {
+    await requestSaleChangeStatus(orderId, status);
+    getDetails();
+  };
+
   useEffect(() => {
     getDetails();
+  }, []);
+
+  useEffect(() => {
     const value = JSON.parse(localStorage.getItem('user')).role;
 
     setRole(value);
-  }, []);
+  }, [role]);
 
   return (
     <div>
       { role === 'customer'
-        ? (<CustomerHeader sale={ saleInfo } seller={ sellerInfo } />)
-        : (<SellerHeader sale={ saleInfo } />)}
+        ? (
+          <CustomerHeader
+            sale={ saleInfo }
+            changeStatus={ changeStatus }
+            seller={ sellerInfo }
+          />)
+        : (
+          <SellerHeader
+            changeStatus={ changeStatus }
+            sale={ saleInfo }
+          />)}
       <ProductsTable products={ productsList } role={ role } />
     </div>
   );

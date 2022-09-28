@@ -50,7 +50,9 @@ export const requestSaleChangeStatus = async (saleId, body) => {
 
   const requestBody = { status: body };
 
-  await api.patch(url, requestBody).catch((error) => error.response);
+  const { data } = await api.patch(url, requestBody).catch((error) => error.response);
+
+  return data;
 };
 
 export const requestOrderDetails = async (orderId) => {
