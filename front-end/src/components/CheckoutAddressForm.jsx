@@ -38,6 +38,7 @@ export default function CheckoutAddressForm() {
       </form>
       <button
         type="button"
+        data-testid="customer_checkout__button-submit-order"
         onClick={ () => {} }
       >
         {' '}

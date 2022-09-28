@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function CheckoutTable({ products }) {
+export default function CheckoutTable({ products, removeItem }) {
   return (
     <div>
       <h1>Finalizar Pedido</h1>
@@ -12,42 +13,43 @@ export default function CheckoutTable({ products }) {
           <th>Valor Unitário</th>
           <th>Sub total</th>
         </tr>
-        { products && products.map((product) => {
-          const { id, name, SalesProducts: { quantity }, price } = product;
+        { products && products.map((product, i) => {
+          const { id, name, quantity, price } = product;
           const subTotal = quantity * price;
           return (
             <tr key={ id }>
               <td
-                data-testid={ `customer_checkout__element-order-table-item-number-${id}` }
+                data-testid={ `customer_checkout__element-order-table-item-number-${i}` }
               >
-                { id }
+                { i + 1}
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-name-${id}` }
+                data-testid={ `customer_checkout__element-order-table-name-${i}` }
               >
                 { name }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-quantity-${id}` }
+                data-testid={ `customer_checkout__element-order-table-quantity-${i}` }
               >
                 { quantity }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-unit-price-${id}` }
+                data-testid={ `customer_checkout__element-order-table-unit-price-${i}` }
               >
-                { price }
+                { price.replace('.', ',') }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-sub-total-${id}` }
+                data-testid={ `customer_checkout__element-order-table-sub-total-${i}` }
               >
-                { subTotal }
+                { subTotal.toFixed(2).replace('.', ',') }
               </td>
               <td
-                data-testid={ `customer_checkout__element-order-table-sub-total-${id}` }
+                data-testid={ `customer_checkout__element-order-table-sub-total-${i}` }
               >
                 <button
                   type="button"
-                  onClick={ () => removeProduct(id) }
+                  data-testid={ `customer_checkout__element-order-table-remove-${i}` }
+                  onClick={ () => removeItem(id) }
                 >
                   Remover
                 </button>
@@ -61,10 +63,10 @@ export default function CheckoutTable({ products }) {
       >
         Total: R$
         {' '}
-        {products && products.reduce((acc, { price, SalesProducts: { quantity } }) => {
+        {products && products.reduce((acc, { price, quantity }) => {
           const subTotal = price * quantity;
           return acc + subTotal;
-        }, 0)}
+        }, 0).toFixed(2).toString().replace('.', ',')}
       </span>
     </div>
   );
@@ -72,4 +74,5 @@ export default function CheckoutTable({ products }) {
 
 CheckoutTable.propTypes = {
   products: PropTypes.arrayOf(PropTypes.string).isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
