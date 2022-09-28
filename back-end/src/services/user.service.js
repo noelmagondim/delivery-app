@@ -39,6 +39,16 @@ const userService = {
     return result;
   },
 
+  async getAllSellers() {
+    const result = await User.findAll({
+      where: { role: 'seller' },
+      attributes: { 
+        exclude: ['password'] },
+    });
+
+    return result;
+  },
+
   async findUserById(id) {
     const user = await User.findByPk(id, {
       attributes: {

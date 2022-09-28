@@ -16,6 +16,12 @@ const userController = {
     return res.status(200).json(result);
   },
 
+  async getAllSellers(_req, res) {
+    const result = await userService.getAllSellers();
+    
+    return res.status(200).json(result);
+  },
+
   async findUserById(req, res) {
     const { id } = req.params;
 
