@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  Box,
+  TextField,
+  Stack,
+  Button,
+  Alert,
+  Divider,
+} from '@mui/material';
 import { requestLogin, setToken } from '../services/requests';
 
 export default function LoginForm() {
@@ -52,6 +60,7 @@ export default function LoginForm() {
     if (response.status >= Number('400')) {
       setMessage(response.data.message);
       setFailedTryLogin(true);
+      return;
     }
 
     const { data: { token, name, email, role, id } } = response;
@@ -72,57 +81,79 @@ export default function LoginForm() {
   }, [emailInput, passwordInput]);
 
   return (
-    <div>
-      <form>
-        <label htmlFor="input-email">
-          Login
-          <input
-            data-testid="common_login__input-email"
-            type="email"
-            name="email"
-            id="input-email"
-            placeholder="email@trybeer.com.br"
-            onChange={ onChangeEmail }
-            required
-          />
-        </label>
-        <label htmlFor="input-password">
-          Senha:
-          <input
-            data-testid="common_login__input-password"
-            type="password"
-            name="password"
-            id="input-password"
-            onChange={ onChangePassword }
-            required
-          />
-        </label>
+    <Box
+      bgcolor="#fff"
+      sx={ {
+        marginTop: 8,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        borderRadius: 2,
+        padding: 4,
+        width: '100%',
+      } }
+    >
+      <Stack
+        width="80%"
+        spacing={ 2 }
+      >
+        <TextField
+          label="Email"
+          data-testid="common_login__input-email"
+          type="email"
+          name="email"
+          id="input-email"
+          placeholder="email@trybeer.com.br"
+          onChange={ onChangeEmail }
+          required
+        />
+        <TextField
+          label="Senha"
+          data-testid="common_login__input-password"
+          type="password"
+          name="password"
+          id="input-password"
+          onChange={ onChangePassword }
+          required
+        />
+      </Stack>
+      <Stack
+        display="flex"
+        spacing={ 2 }
+        sx={ {
+          marginTop: '20px' } }
+      >
         {
           failedTryLogin
             ? (
-              <p data-testid="common_login__element-invalid-email">
+              <Alert
+                severity="error"
+                data-testid="common_login__element-invalid-email"
+              >
                 {message}
-              </p>
+              </Alert>
             )
             : null
         }
-        <button
+        <Button
+          variant="contained"
           data-testid="common_login__button-login"
           type="submit"
           onClick={ handleLogin }
           disabled={ !isValidButton }
         >
           LOGIN
-        </button>
-      </form>
-      <Link to="/register">
-        <button
-          data-testid="common_login__button-register"
-          type="submit"
-        >
-          Ainda não tenho conta
-        </button>
-      </Link>
-    </div>
+        </Button>
+        <Divider />
+        <Link to="/register">
+          <span
+            data-testid="common_login__button-register"
+            type="submit"
+          >
+            Ainda não tenho conta
+          </span>
+        </Link>
+      </Stack>
+    </Box>
   );
 }
