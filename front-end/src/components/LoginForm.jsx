@@ -11,6 +11,12 @@ export default function LoginForm() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) return navigate('/customer/products');
+  }, []);
+
   const validateEmail = (emaill) => {
     const regex = /\S+@\S+\.\S+/;
     return regex.test(emaill);

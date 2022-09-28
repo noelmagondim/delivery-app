@@ -22,7 +22,7 @@ export default function CostumerOrders() {
   const getSellerOrders = async () => {
     setToken(JSON.parse(localStorage.getItem('user')).token);
 
-    const { id } = JSON.parse(localStorage.getItem('id'));
+    const { id } = JSON.parse(localStorage.getItem('user'));
     const { data } = await requestSellerOrders(id);
     setOrders(data);
   };

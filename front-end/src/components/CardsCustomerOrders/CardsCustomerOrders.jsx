@@ -42,7 +42,7 @@ export default function CardsCustomerOrders({ order, role }) {
             : `seller_orders__element-card-price-${order.id}`
         }
       >
-        {order.totalPrice}
+        {order.totalPrice.toString().replace('.', ',')}
       </p>
       { role === 'seller' && (
         <p>

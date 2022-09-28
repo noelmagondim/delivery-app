@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { requestSaleChangeStatus } from '../../../services/requests';
 
-export default function SellerHeader({ sale }) {
+export default function SellerHeader({ sale, changeStatus }) {
   return (
     <>
       <span
@@ -26,8 +25,9 @@ export default function SellerHeader({ sale }) {
       <button
         data-testid="seller_order_details__button-preparing-check"
         type="button"
+        disabled={ sale.status !== 'Pendente' }
         onClick={ async () => {
-          await requestSaleChangeStatus(sale.id, 'Preperando');
+          await changeStatus('Preparando');
         } }
       >
         PREPARAR PEDIDO
@@ -35,8 +35,9 @@ export default function SellerHeader({ sale }) {
       <button
         data-testid="seller_order_details__button-dispatch-check"
         type="button"
+        disabled={ sale.status !== 'Preparando' }
         onClick={ async () => {
-          await requestSaleChangeStatus(sale.id, 'Em Trânsito');
+          await changeStatus('Em Trânsito');
         } }
       >
         SAIU PRA ENTREGA
@@ -47,4 +48,5 @@ export default function SellerHeader({ sale }) {
 
 SellerHeader.propTypes = {
   sale: PropTypes.objectOf(PropTypes.number).isRequired,
+  changeStatus: PropTypes.func.isRequired,
 };
